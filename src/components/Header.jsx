@@ -8,6 +8,7 @@ function Header() {
     const [searchInput, setSearchInput] = useState('');
     const [searchResult, setSearchResult] = useState('');
 
+
     const navigate = useNavigate();
     const [isLogout, setIsLogout] = useState(false);
 
