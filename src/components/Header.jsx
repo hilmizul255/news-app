@@ -2,13 +2,11 @@ import { Grid, Button, Typography, Box } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import data from '../data.json';
 
 
-function Header() {
+function Header(props) {
     const [searchInput, setSearchInput] = useState('');
-    const [searchResult, setSearchResult] = useState('');
-
-
     const navigate = useNavigate();
     const [isLogout, setIsLogout] = useState(false);
 
@@ -22,12 +20,9 @@ function Header() {
     }
 
     const handleSearch = () => {
-        setSearchResult(searchInput);
+        props.onSearch(searchInput);
         setSearchInput('');
     }
-
-
-
 
     return (
         <Grid container className="header section">
@@ -50,13 +45,13 @@ function Header() {
                         className="search-button"
                         size="small"
                     >
-                        Search
+                        Search {props.searchResult}
                     </Button>
 
                 </Box>
             </Grid>
             <Grid item lg={3} className="header__right" sx={{ display: 'flex', gap: .25, justifyContent: 'flex-end' }}>
-                <Button variant="contained" size="small">Hilmi!</Button>
+                <Button variant="contained" size="small">{props.user?.userName}</Button>
                 <Button variant="contained" size="small" onClick={handleLogout}>Logout</Button>
             </Grid>
 

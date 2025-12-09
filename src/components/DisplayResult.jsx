@@ -1,70 +1,74 @@
-import { Grid, Box, Typography, Link } from "@mui/material";
+import { Grid, Box, Typography, Link, Button } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect, useState } from 'react';
 import { fetchNews } from '../api/newsApi';
+import NewsItem from "./NewsItem";
 
-function DisplayResult({ searchResult }) {
+function DisplayResult(props) {
     const [articles, setArticles] = useState([]);
-    const [isValidSearch, setIsValidSearch] = useState(false);
+    const [isValidSearch, setIsValidSearch] = useState('');
+    const [visibleCount, setVisibleCount] = useState(12);
 
 
 
     useEffect(() => {
         const getNews = async () => {
             try {
-                const newsData = await fetchNews(searchResult);
+                setVisibleCount(12);
+                if (props.searchResult !== '') {
+                    const newsData = await fetchNews(props.searchResult);
 
-                const formattedData = newsData.map(article => ({
-                    websiteName: article.source.name,
-                    newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
-                    time: article.publishedAt,
-                    image: article.urlToImage,
-                    headline: article.title,
-                    url: article.url
-                }));
+                    const formattedData = newsData.map(article => ({
+                        websiteName: article.source.name,
+                        newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
+                        time: article.publishedAt,
+                        image: article.urlToImage,
+                        headline: article.title.slice(0, 90),
+                        url: article.url
+                    })).filter(article => article.headline && article.headline.toLowerCase().includes(props.searchResult.toLowerCase()));
 
-                setArticles(formattedData);
+                    if (formattedData.length > 0) {
+                        setIsValidSearch('showResult');
+                        setArticles(formattedData);
+                    } else {
+                        setIsValidSearch('showError');
+                    }
+                } else if (props.searchResult === '') {
+                    setIsValidSearch('showInstruction');
+                } else {
+                    setIsValidSearch('showError');
+                }
             } catch (error) {
                 console.error("Error in DisplayResult:", error);
             }
         };
 
         getNews()
-    }, [searchResult]);
+    }, [props.searchResult]);
+
+    const handleLoadMore = () => {
+        setVisibleCount(prev => prev + 12);
+    }
 
     return (<>
 
-        {isValidSearch ? (
-            <Grid container spacing={2}>
-                {articles.map((item, index) => (
-                    <Grid item key={index} xs={12} sm={6} md={3}>
-
-                        <Box backgroundColor="primary.contrastText" outline="1px solid #ccc" p={1} borderRadius={1} >
-
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, padding: 1 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: .25, width: "45px", height: "45px", borderRadius: '50%', overflow: 'hidden' }}>
-                                    <img src={item.newsAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                </Box>
-                                <Box>
-                                    <Link href={item.url} target="_blank">
-                                        <Typography variant="h6">{item.websiteName}</Typography>
-                                    </Link>
-                                    <Typography variant="body2">{new Date(item.time).toLocaleDateString()}</Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ display: 'flex', width: '100%', height: '200px', overflow: 'hidden' }}>
-                                <img src={item.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            </Box>
-                            <Box sx={{ padding: 1 }}>
-                                <Typography variant="body2">{item.headline}</Typography>
-                                <FavoriteIcon />
-                            </Box>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
+        {isValidSearch === 'showResult' ? (
+            <>
+                <Grid container spacing={2}>
+                    {articles.slice(0, visibleCount).map((item, index) => (
+                        <NewsItem item={item} addToFavorites={props.addToFavorites} key={index} />
+                    ))}
+                </Grid>
+                {visibleCount < articles.length && (
+                    <Box display="flex" justifyContent="center" mt={2}>
+                        <Button onClick={handleLoadMore} variant="contained" size="small">Load More...</Button>
+                    </Box>
+                )}
+            </>
+        ) : isValidSearch === 'showError' ? (
+            <Typography variant="h5" color="primary.contrastText">Sorry. We could't find any news for your search :(</Typography>
         ) : (
-            <Typography variant="h5" color="secondary">Please search for your favorite news topic to get started :) </Typography>
+            <Typography variant="h5" color="primary.contrastText">Please search for your favorite news topic to get started :) </Typography>
         )}
     </>
     );

@@ -1,5 +1,3 @@
-
-
 import { Paper, TextField, Button, Box, Typography, LinearProgress, Snackbar, Alert } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +10,7 @@ function Login() {
     const [isLoginInProgress, setIsLoginInProgress] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [user, setUser] = useState({ userName: '', password: '' });
+    const [currentUser, setCurrentUser] = useState(null);
 
 
     const handleChange = (event) => {
@@ -31,6 +30,7 @@ function Login() {
             setIsLoginInProgress(true);
             setSnackbarOpen(false);
             setIsLoggedin(true);
+            setCurrentUser(matchedUser);
         } else {
             setIsLoginInProgress(false);
             setSnackbarOpen(true);
@@ -41,71 +41,73 @@ function Login() {
     useEffect(() => {
         if (isLoggedin) {
             const timer = setTimeout(() => {
-                navigate('/home');
+                navigate('/home', { state: { user: currentUser } });
             }, 1500);
 
             return () => clearTimeout(timer);
         }
-    }, [isLoggedin]);
+    }, [isLoggedin, currentUser, navigate]);
 
 
 
 
     return (
-        <section className="bg-img" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-            <Paper sx={{ padding: 5, width: '30%', margin: 'auto' }}>
-                <form onSubmit={handleLogin}>
-                    <Typography variant="h4" gutterBottom>Login</Typography>
+        <section className="bg-img" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', flexDirection: 'column' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography variant="h1" color="primary">find.My.News</Typography>
+                <Paper sx={{ padding: 5, width: '50%', margin: 'auto' }}>
+                    <form onSubmit={handleLogin}>
+                        <Typography variant="h4" gutterBottom>Login</Typography>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 
-                        <Box>
-                            <TextField
-                                type="text"
-                                name="userName"
-                                label="Username"
-                                variant="outlined"
-                                onChange={handleChange}
+                            <Box>
+                                <TextField
+                                    type="text"
+                                    name="userName"
+                                    label="Username"
+                                    variant="outlined"
+                                    onChange={handleChange}
+                                    fullWidth
+                                    value={user.userName}
+                                />
+                            </Box>
+
+                            <Box>
+                                <TextField
+                                    type="password"
+                                    name="password"
+                                    label="Password"
+                                    variant="outlined"
+                                    onChange={handleChange}
+                                    fullWidth
+                                    value={user.password}
+                                />
+                            </Box>
+
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                disabled={isLoginInProgress}
                                 fullWidth
-                                value={user.userName}
-                            />
+                                onClick={handleLogin}
+                            >
+                                Login
+
+                            </Button>
+
+                            {isLoginInProgress && (<LinearProgress />)}
+
+
+
                         </Box>
-
-                        <Box>
-                            <TextField
-                                type="password"
-                                name="password"
-                                label="Password"
-                                variant="outlined"
-                                onChange={handleChange}
-                                fullWidth
-                                value={user.password}
-                            />
-                        </Box>
-
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            disabled={isLoginInProgress}
-                            fullWidth
-                            onClick={handleLogin}
-                        >
-                            Login
-
-                        </Button>
-
-                        {isLoginInProgress && (<LinearProgress />)}
-
-
-
-                    </Box>
-                </form>
-            </Paper>
+                    </form>
+                </Paper>
+            </Box>
 
             <Snackbar
                 open={snackbarOpen}
                 autoHideDuration={3000}
-                // onClose={handleClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 
             >

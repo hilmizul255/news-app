@@ -1,25 +1,19 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography, Link } from "@mui/material";
 
-function MyFavoritePanel() {
-
-    const tempHeadlines = [
-        {
-            headline: "Test Headline 1 Test Headline 1"
-        },
-        {
-            headline: "Test Headline 2 Test Headline 2"
-        },
-        {
-            headline: "Test Headline 3 Test Headline 3"
-        }
-    ]
+function MyFavoritePanel({ favorites, clearFavorites }) {
 
     return (
         <Box>
-            <Typography variant="h6">My Favorite Panel</Typography>
-            {tempHeadlines.map((item, index) => (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: .25 }}>
+                <Typography variant="h6" color="primary.contrastText">My fav: {favorites.length}</Typography>
+                <Button variant="contained" size="small" color="error" onClick={clearFavorites}>Clear</Button>
+            </Box>
+            <Typography variant="h4">My Favorite Panel</Typography>
+            {favorites.map((item, index) => (
                 <Box key={index} sx={{ padding: 1 }}>
-                    <Typography variant="body2" color="primary.contrastText">{item.headline}</Typography>
+                    <Link href={item.url} target="_blank">
+                        <Typography variant="body2" color="primary.contrastText">{item.headline}</Typography>
+                    </Link>
                 </Box>
             ))}
         </Box>
