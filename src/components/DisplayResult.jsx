@@ -1,4 +1,4 @@
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Box, Typography, Link } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function DisplayResult() {
@@ -9,42 +9,48 @@ function DisplayResult() {
             newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
             time: "2022-06-01",
             image: "https://images.pexels.com/photos/1277211/pexels-photo-1277211.jpeg",
-            headline: "Test Headline 1 Test Headline 1"
+            headline: "Test Headline 1 Test Headline 1",
+            url: "https://www.google.com"
         },
         {
             websiteName: "Source 2",
             newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
             time: "2022-06-01",
             image: "https://images.pexels.com/photos/34676888/pexels-photo-34676888.jpeg",
-            headline: "Test Headline 2 Test Headline 2"
+            headline: "Test Headline 2 Test Headline 2",
+            url: "https://www.google.com"
         },
         {
             websiteName: "Source 3",
             newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
             time: "2022-06-01",
             image: "https://images.pexels.com/photos/936094/pexels-photo-936094.jpeg",
-            headline: "Test Headline 3 Test Headline 3"
+            headline: "Test Headline 3 Test Headline 3",
+            url: "https://www.google.com"
         },
         {
             websiteName: "Source 1",
             newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
             time: "2022-06-01",
             image: "https://images.pexels.com/photos/1277211/pexels-photo-1277211.jpeg",
-            headline: "Test Headline 1 Test Headline 1"
+            headline: "Test Headline 1 Test Headline 1",
+            url: "https://www.google.com"
         },
         {
             websiteName: "Source 2",
             newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
             time: "2022-06-01",
             image: "https://images.pexels.com/photos/34676888/pexels-photo-34676888.jpeg",
-            headline: "Test Headline 2 Test Headline 2"
+            headline: "Test Headline 2 Test Headline 2",
+            url: "https://www.google.com"
         },
         {
             websiteName: "Source 3",
-            newsAvatar: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
+            newsAvatar: "https://cdn.pixabay.com/phot   o/2023/02/18/11/00/icon-7797704_640.png",
             time: "2022-06-01",
             image: "https://images.pexels.com/photos/936094/pexels-photo-936094.jpeg",
-            headline: "Test Headline 3 Test Headline 3"
+            headline: "Test Headline 3 Test Headline 3",
+            url: "https://www.google.com"
         }
     ]
 
@@ -60,7 +66,9 @@ function DisplayResult() {
                                 <img src={item.newsAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             </Box>
                             <Box>
-                                <Typography variant="h6">{item.websiteName}</Typography>
+                                <Link href={item.url} target="_blank">
+                                    <Typography variant="h6">{item.websiteName}</Typography>
+                                </Link>
                                 <Typography variant="body2">{item.time}</Typography>
                             </Box>
                         </Box>

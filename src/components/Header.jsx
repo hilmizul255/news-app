@@ -1,10 +1,12 @@
 import { Grid, Button, Typography, Box } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
 function Header() {
+    const [searchInput, setSearchInput] = useState('');
+    const [searchResult, setSearchResult] = useState('');
 
     const navigate = useNavigate();
     const [isLogout, setIsLogout] = useState(false);
@@ -13,6 +15,17 @@ function Header() {
         setIsLogout(true);
         navigate('/');
     }
+
+    const handleChange = (e) => {
+        setSearchInput(e.target.value);
+    }
+
+    const handleSearch = () => {
+        setSearchResult(searchInput);
+        setSearchInput('');
+    }
+
+
 
 
     return (
@@ -24,15 +37,15 @@ function Header() {
 
                     <InputBase
                         placeholder="What do you want to search? (Ex. Bitcoin)"
-                        // value={searchInput}
-                        // onChange={(e) => setSearchInput(e.target.value)}
+                        value={searchInput}
+                        onChange={handleChange}
                         className="search-input"
                         sx={{ color: '#333', backgroundColor: '#fff' }}
                     />
 
                     <Button
                         variant="contained"
-                        // onClick={handleSearch}
+                        onClick={handleSearch}
                         className="search-button"
                         size="small"
                     >

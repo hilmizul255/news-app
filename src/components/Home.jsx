@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import MyFavoritePanel from "./MyFavouritePanel";
 import DisplayResult from "./DisplayResult";
 
-function Home() {
+function Home({ searchResult }) {
     return (
         <>
 
@@ -15,7 +15,7 @@ function Home() {
                             <MyFavoritePanel />
                         </Grid>
                         <Grid item lg={9}>
-                            <DisplayResult />
+                            <DisplayResult searchResult={searchResult} />
                         </Grid>
                     </Grid>
                 </Grid>
