@@ -54,8 +54,8 @@ function Login() {
     return (
         <section className="bg-img" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', flexDirection: 'column' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography variant="h1" color="primary">find.My.News</Typography>
-                <Paper sx={{ padding: 5, width: '50%', margin: 'auto' }}>
+                <Typography variant="h1" color="white">find.My.News :)</Typography>
+                <Paper sx={{ padding: 5, width: '50%', margin: 'auto', backgroundColor: 'hsla(0, 0%, 100%, 0.85)' }}>
                     <form onSubmit={handleLogin}>
                         <Typography variant="h4" gutterBottom>Login</Typography>
 

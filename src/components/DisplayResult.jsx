@@ -53,8 +53,9 @@ function DisplayResult(props) {
     return (<>
 
         {isValidSearch === 'showResult' ? (
-            <>
-                <Grid container spacing={2}>
+            <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography variant="h6" color="white">Latest News for {props.searchResult}</Typography>
+                <Grid container spacing={2} >
                     {articles.slice(0, visibleCount).map((item, index) => (
                         <NewsItem item={item} addToFavorites={props.addToFavorites} key={index} />
                     ))}
@@ -64,11 +65,18 @@ function DisplayResult(props) {
                         <Button onClick={handleLoadMore} variant="contained" size="small">Load More...</Button>
                     </Box>
                 )}
-            </>
+            </Box>
         ) : isValidSearch === 'showError' ? (
-            <Typography variant="h5" color="primary.contrastText">Sorry. We could't find any news for your search :(</Typography>
+            <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'left', height: '100%' }}>
+                <Typography variant="h6" color="white">Latest News for {props.searchResult}</Typography>
+                <Box sx={{ padding: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    <Typography variant="h3" color="white">Sorry. We could't find any news for your search :(</Typography>
+                </Box>
+            </Box>
         ) : (
-            <Typography variant="h5" color="primary.contrastText">Please search for your favorite news topic to get started :) </Typography>
+            <Box sx={{ padding: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                <Typography variant="h3" color="white">Please search for your favorite news topic to get started :) </Typography>
+            </Box>
         )}
     </>
     );

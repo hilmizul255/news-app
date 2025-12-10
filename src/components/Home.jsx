@@ -30,13 +30,13 @@ function Home() {
     return (
         <>
             <Grid container className="main-container" direction="column">
-                <Grid className="header-container" item lg={1} style={{ maxHeight: "10vh" }}><Header onSearch={handleSearch} searchResult={searchResult} user={user} /></Grid>
-                <Grid className="content-container section bg-img" item lg={11}>
-                    <Grid container spacing={2} direction="row" height="100vh">
-                        <Grid item lg={3}>
+                <Grid className="header-container" item lg={1} sx={{ maxHeight: "10vh", justifyContent: 'center', display: 'flex' }}><Header onSearch={handleSearch} searchResult={searchResult} user={user} /></Grid>
+                <Grid className="content-container " item lg={11}>
+                    <Grid container spacing={2} direction="row" height="100%" minHeight="100vh">
+                        <Grid item lg={2.5} className="bg-img" sx={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', width: '100%' }}>
                             <MyFavoritePanel favorites={favorites} clearFavorites={clearFavorites} />
                         </Grid>
-                        <Grid item lg={9}>
+                        <Grid item lg={9.5} className="bg-img" >
                             <DisplayResult searchResult={searchResult} addToFavorites={addToFavorites} />
                         </Grid>
                     </Grid>
